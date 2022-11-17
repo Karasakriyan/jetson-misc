@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <cstdio>
 #include <vector>
 #include <algorithm>
 #include <fcntl.h>
@@ -81,6 +82,11 @@ void ReceiveFile(string path, int port)
     ofstream out;
     out.open(path, ios_base::app | ios_base::binary);
 
-    char byte;
-    while(read(port, &byte, sizeof(byte)));
+    char byte, c;
+    while(true)
+    {
+        if (read(0, &c, 1) == 1 && c == 113)
+            break;
+        read(port, &byte, sizeof(byte));
+    }
 }
